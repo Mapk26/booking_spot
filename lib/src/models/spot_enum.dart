@@ -5,11 +5,11 @@ import 'package:flutter/material.dart' show Color, Colors;
 enum SpotStatus {
   disabled(Colors.grey),
   selected(Colors.blue),
-  available(Colors.green),
+  available(Color(0xFF3DD06D)),
   occupied(Color(0xffEB4444)),
   reserved(Color(0xFF932A2A)),
-  partiallyFree(Colors.amber),
-  optioned(Colors.purple),
+  partiallyFree(Color(0xffFFB703)),
+  optioned(Color(0xffDFC2F2)),
   overbooking(Color(0xFF344055));
   
   const SpotStatus(this.color);

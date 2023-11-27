@@ -8,4 +8,6 @@ class DarkTheme {
   static const Color available = Color(0xFF363740); 
   static const Color selected = Color(0xFFFFB43A);
   static const Color reserved = Color(0xFFDE3E34); 
+  
+  static const Color action = Color(0xFFFFB703);
 }

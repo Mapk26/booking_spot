@@ -13,6 +13,7 @@ class Spot extends BaseSpot {
   final int id, number, row;
   final String? suffix, name;
   final bool isSelected;
+  final int offsetSX, offsetDX, offsetUP, offsetDOWN;
   
   Spot({
     required this.id,
@@ -22,6 +23,10 @@ class Spot extends BaseSpot {
     required this.name, 
     required this.number, 
     required this.row,
+    this.offsetUP=0,
+    this.offsetDOWN=0,
+    this.offsetDX=0,
+    this.offsetSX=0
   });
 
 

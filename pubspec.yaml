@@ -1,6 +1,6 @@
 name: booking_spot
 description: A new Flutter package project.
-version: 0.0.2
+version: 0.0.3
 homepage:
 
 environment:
@@ -13,6 +13,7 @@ dependencies:
 
   flutter_bloc:
   shared_preferences: 
+  gap:
 
 dev_dependencies:
   flutter_test:

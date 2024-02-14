@@ -1,9 +1,9 @@
-import 'package:booking_spot/src/models/gap.dart';
+
 import 'package:booking_spot/src/models/spot.dart';
 import 'package:booking_spot/src/theme/dark_theme.dart';
-import 'package:booking_spot/src/widgets/spot_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:gap/gap.dart';
 
 import 'blocs/size_bloc.dart';
 
@@ -29,7 +29,7 @@ class BookingSpot extends StatelessWidget {
   Widget build(BuildContext context) {
 
     return BlocProvider(
-      create: (_) => SizeBloc(),
+      create: (_) => SizeBloc()..init(),
       child: LayoutBuilder(
           builder: (context, constraints){
     
@@ -44,43 +44,40 @@ class BookingSpot extends StatelessWidget {
                 children: [
                 
                   Align(
-                    alignment: Alignment.topLeft,
+                    alignment: Alignment.topCenter,
                     child: SizedBox(
                       width: constraints.maxWidth,
-                      height: constraints.maxHeight,
+                      height: constraints.maxHeight - 54,
                       child: CustomScrollView(
                         slivers: [
                   
                           SliverToBoxAdapter(
-                            child: SingleChildScrollView(
-                              scrollDirection: Axis.horizontal,
-                              reverse: reversed,
-                              child: BlocBuilder<SizeBloc, double>(
-                                builder: (context, state) {
-                                  
-                                  return Column(
-                                    mainAxisSize: MainAxisSize.max,
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                    crossAxisAlignment: reversed ? CrossAxisAlignment.end : CrossAxisAlignment.start,
-                                    children: [
-                                      
-                                      for(var row in matrix)
-                                      Row(
-                                        children: [
-                              
-                                          for(var spot in row)
-                                          _buildWidgetSpot(spot, state),
-                              
-                                          // spotBuilder!=null 
-                                          //   ? spotBuilder!(_, 1, 2 ) 
-                                          //   : _buildSpot(spot),
-                                        ],
-                                      ),
-                                      
-                                      
-                                    ],
-                                  );
-                                },
+                            child: Center(
+                              child: SingleChildScrollView(
+                                scrollDirection: Axis.horizontal,
+                                reverse: reversed,
+                                child: BlocBuilder<SizeBloc, double>(
+                                  builder: (context, state) {
+                                    
+                                    return Column(
+                                      mainAxisSize: MainAxisSize.max,
+                                      mainAxisAlignment: MainAxisAlignment.start,
+                                      crossAxisAlignment: reversed ? CrossAxisAlignment.end : CrossAxisAlignment.start,
+                                      children: [
+                                        
+                                        for(var row in matrix)
+                                        _BuildWidgetSpots(
+                                          spots: row, 
+                                          size: state,
+                                          onSpotTap: onSpotTap,
+                                        ),
+                                        
+                                        
+                                        
+                                      ],
+                                    );
+                                  },
+                                ),
                               ),
                             ),
                           ),
@@ -139,42 +136,69 @@ class BookingSpot extends StatelessWidget {
     );
   }
 
-  Widget _buildWidgetSpot(BaseSpot spot, double size){
-    
-    if(spot is Gap){
-      return const SpotWidget(color: Colors.transparent,);
-
-    }else if(spot is Spot){
-      return Container(
-        width: size,
-        height: size,
-        margin: const EdgeInsets.only(right: 10, bottom: 10),
-        child: Material(
-          color: spot.isSelected 
-            ? spot.status.color.withOpacity(0.7) 
-            : spot.status.color,
-          borderRadius: const BorderRadius.all(Radius.circular(12)),
-          child: InkWell(
-            onTap: () => onSpotTap(spot.id),
-            customBorder: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(10),
-            ),
-            child: spot.name!=null
-              ? Center(
-                  child: Text(spot.name!, style: const TextStyle(color: Colors.white),)
-                ) 
-              : const SizedBox(),
-          ),
-        ),
-      );
-    }
-
-    return const SpotWidget(color: Colors.transparent,);
-    
-  }
 }
 
 
+class _BuildWidgetSpots extends StatelessWidget {
+
+  final List<BaseSpot> spots;
+  final  double size;
+  final Function(int id) onSpotTap;
+
+  const _BuildWidgetSpots({required this.spots, required this.size, required this.onSpotTap});
+
+  @override
+  Widget build(BuildContext context) {
+    List<Widget> children = [];
+
+    for(var spot in spots){
+      if(spot is Spot && spot.offsetSX>0){
+        children.add(const Gap(30));
+      }
+
+      if(spot is Spot) {
+        children.add(Container(
+          width: size,
+          height: size,
+          margin: const EdgeInsets.only(right: 10, bottom: 10),
+          decoration: BoxDecoration(
+            color: spot.isSelected 
+              ? spot.status.color.withOpacity(0.7) 
+              : spot.status.color,
+            borderRadius: const BorderRadius.all(Radius.circular(12)),
+            border: spot.isSelected ? Border.all(width: 2, color: const Color(0xFF003049)) : null
+          ),
+          
+          child: Material(
+            color: Colors.transparent,
+            child: InkWell(
+              onTap: () => onSpotTap(spot.id),
+              customBorder: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(10),
+              ),
+              child: spot.name!=null
+                ? Center(
+                    child: Text(spot.name!, style: const TextStyle(color: Colors.white),)
+                  ) 
+                : const SizedBox(),
+            ),
+          ),
+        ));
+      }
+
+      if(spot is Spot && spot.offsetDX>0){
+        children.add(const Gap(30));
+      }
+    }
+
+    return Row(
+      mainAxisSize: MainAxisSize.max,
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: children,
+    );
+   
+  }
+}
 
 
 // GridView.builder(

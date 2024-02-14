@@ -6,11 +6,9 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 class SizeBloc extends Cubit<double> {
   
-  SizeBloc() : super(40) {
-    _init();
-  }
+  SizeBloc() : super(40);
 
-  void _init() async {
+  void init() async {
     final shared = await SharedPreferences.getInstance();
     double zoom = shared.getDouble('SPOT_ZOOM') ?? 40;
     emit(zoom);

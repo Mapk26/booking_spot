@@ -21,14 +21,16 @@ class MainScreen extends StatelessWidget {
               print('tapped $id');
             },
             matrix: [
+              ...List.generate(20, (index) => 
               [ 
                 Spot(id: 1, name: 'A', number: 1, row: 1 ), 
-                Gap(),
+                SpotGap(),
                 Spot(id: 2, name: 'B', number: 2, row: 1, status: SpotStatus.occupied), 
                 Spot(id: 3, name: 'C', number: 2, row: 1 ), 
                 Spot(id: 4, name: 'D', number: 2, row: 1 ), 
                 ...List.generate(40, (index) => Spot(id: index, name: '', number: 2, row: 1 ), )
               ]
+              )
 
             ],
           ),

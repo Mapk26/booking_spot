@@ -3,11 +3,11 @@
 
 import 'base_spot.dart';
 
-class Gap extends BaseSpot{
+class SpotGap extends BaseSpot{
 
   final double gapSpace;
   
-  Gap({
+  SpotGap({
     this.gapSpace = 40
   });
 

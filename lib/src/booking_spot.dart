@@ -153,7 +153,7 @@ class _BuildWidgetSpots extends StatelessWidget {
 
     for(var spot in spots){
       if(spot is Spot && spot.offsetSX>0){
-        children.addAll(List.filled(spot.offsetSX, const Gap(30)));
+        children.addAll(List.filled(spot.offsetSX, Gap(size+10)));
       }
 
       if(spot is Spot) {
@@ -187,7 +187,7 @@ class _BuildWidgetSpots extends StatelessWidget {
       }
 
       if(spot is Spot && spot.offsetDX>0){
-        children.addAll(List.filled(spot.offsetDX, const Gap(30)));
+        children.addAll(List.filled(spot.offsetDX, Gap(size+10)));
       }
     }
 

@@ -6,6 +6,7 @@ enum SpotStatus {
   disabled(Colors.grey),
   selected(Colors.blue),
   available(Color(0xFF3DD06D)),
+  allocated(Color.fromRGBO(27, 94, 32, 1)),
   occupied(Color(0xffEB4444)),
   reserved(Color(0xFF932A2A)),
   partiallyFree(Color(0xffFFB703)),
